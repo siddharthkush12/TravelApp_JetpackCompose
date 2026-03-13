@@ -26,4 +26,17 @@ class Session @Inject constructor(@ApplicationContext context: Context){
     }
 
 
+
+    fun storeUserId(userId: String) {
+        sharedPref.edit().putString("userId", userId).apply()
+    }
+
+    fun getUserId(): String? {
+        return sharedPref.getString("userId", null)
+    }
+
+    fun removeUserId() {
+        sharedPref.edit().remove("userId").apply()
+    }
+
 }

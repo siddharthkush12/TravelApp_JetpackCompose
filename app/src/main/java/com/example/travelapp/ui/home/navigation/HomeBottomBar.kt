@@ -39,9 +39,9 @@ fun HomeBottomBar(
 ) {
     val items = listOf(
         HomeBottomNavigation.Home,
-        HomeBottomNavigation.Expense,
+        HomeBottomNavigation.TravelAI,
         HomeBottomNavigation.Messages,
-        HomeBottomNavigation.Profile
+        HomeBottomNavigation.MyTrips
     )
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
@@ -73,7 +73,7 @@ fun HomeBottomBar(
                     onClick = {
                         navController.navigate(item.destination) {
                             popUpTo(HomeTab) {
-                                inclusive=false
+                                inclusive = false
                             }
                             launchSingleTop = true
                             restoreState = true
@@ -123,16 +123,16 @@ fun GlassBackground(
                 clip = true
             }
             .background(
-                color = Color.White.copy(alpha = 0.45f),
+                color = Color.White.copy(alpha = 0.9f),
                 shape = RoundedCornerShape(28.dp)
             )
             .border(
                 width = 1.dp,
-                color = Color.White.copy(alpha = 0.25f),
+                color = Color.White.copy(alpha = 0.9f),
                 shape = RoundedCornerShape(28.dp)
             )
             .shadow(
-                elevation = 26.dp,
+                elevation = 30.dp,
                 shape = RoundedCornerShape(28.dp)
             )
     )

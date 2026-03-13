@@ -1,11 +1,5 @@
 package com.example.travelapp.ui.home.navigation
 
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Notifications
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.ThumbUp
-import androidx.compose.ui.graphics.vector.ImageVector
 import com.example.travelapp.R
 
 sealed class HomeBottomNavigation(
@@ -19,21 +13,21 @@ sealed class HomeBottomNavigation(
         icon= R.drawable.home
     )
 
-    object Expense: HomeBottomNavigation(
-        destination= ExpenseTab,
-        title="Expense",
-        icon= R.drawable.shopping_bag
+    object TravelAI: HomeBottomNavigation(
+        destination= TravelAITab,
+        title="TravelAi",
+        icon= R.drawable.ai_svgrepo_com
     )
 
     object Messages: HomeBottomNavigation(
-        destination= MessageTab,
+        destination= ChatListTab,
         title="Message",
         icon= R.drawable.chat
     )
 
-    object Profile: HomeBottomNavigation(
-        destination= ProfileTab,
-        title="Profile",
+    object MyTrips: HomeBottomNavigation(
+        destination= MyTripsTab,
+        title="My Trips",
         icon= R.drawable.profile
     )
 

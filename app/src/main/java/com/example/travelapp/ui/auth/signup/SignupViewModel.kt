@@ -7,6 +7,7 @@ import com.example.travelapp.core.network.ApiResult
 import com.example.travelapp.core.network.safeApiCall
 import com.example.travelapp.data.remote.api.TravelApiService
 import com.example.travelapp.data.remote.dto.auth.SignupRequest
+import com.example.travelapp.di.Session
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,7 +18,7 @@ import javax.inject.Inject
 
 
 @HiltViewModel
-class SignupViewModel @Inject constructor(val travelApiService: TravelApiService) : ViewModel() {
+class SignupViewModel @Inject constructor(val travelApiService: TravelApiService, val session: Session) : ViewModel() {
 
     private val _uiState = MutableStateFlow<SignUpEvent>(SignUpEvent.Nothing)
     val uiState = _uiState.asStateFlow()
@@ -67,6 +68,8 @@ class SignupViewModel @Inject constructor(val travelApiService: TravelApiService
             when(response){
                 is ApiResult.Success -> {
                     _uiState.value=SignUpEvent.Success
+                    session.storeToken(response.data.data.token)
+                    session.storeUserId(response.data.data.user.id)
                     _navigationEvent.emit(SignUpNavigation.NavigationToHome)
                 }
                 is ApiResult.Error -> {

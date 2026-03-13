@@ -15,7 +15,6 @@ import com.example.travelapp.ui.splash.SplashScreen
 @Composable
 fun NavGraph(navController: NavHostController, session: Session) {
 
-    val startPoint=if(session.getToken().isNullOrBlank()) SplashScreen else Home
 
     NavHost(
         navController = navController,
@@ -53,7 +52,7 @@ fun NavGraph(navController: NavHostController, session: Session) {
         }
 
         composable<Home>{
-            HomeScreen()
+            HomeScreen(navController,session)
         }
 
     }

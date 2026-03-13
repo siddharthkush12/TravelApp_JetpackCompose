@@ -1,6 +1,7 @@
 package com.example.travelapp.di
 
 import com.example.travelapp.data.remote.api.TravelApiService
+import com.example.travelapp.data.remote.Interceptor.AuthInterceptor
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -9,6 +10,7 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 
@@ -25,10 +27,25 @@ object NetworkModule {
 
     @Provides
     @Singleton
+    fun provideAuthInterceptor(
+        session: Session
+    ): AuthInterceptor {
+        return AuthInterceptor {
+            session.getToken()
+        }
+    }
+
+    @Provides
+    @Singleton
     fun provideOkHttpClient(
-        loggingInterceptor: HttpLoggingInterceptor
+        loggingInterceptor: HttpLoggingInterceptor,
+        authInterceptor: AuthInterceptor
     ): OkHttpClient {
         return OkHttpClient.Builder()
+            .connectTimeout(60, TimeUnit.SECONDS)
+            .readTimeout(60, TimeUnit.SECONDS)
+            .writeTimeout(60, TimeUnit.SECONDS)
+            .addInterceptor(authInterceptor)
             .addInterceptor(loggingInterceptor)
             .build()
     }

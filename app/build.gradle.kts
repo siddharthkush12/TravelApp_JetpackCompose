@@ -90,9 +90,14 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")   //Gson converter
     implementation("com.squareup.okhttp3:okhttp:4.12.0")            //OkHttp
     implementation("com.squareup.okhttp3:logging-interceptor:4.12.0") //Logging interceptor
-    // Liquid Glass
-    implementation("io.github.fletchmckee.liquid:liquid:1.1.1")
-
+    //Coil
+    implementation("io.coil-kt:coil-compose:2.6.0")
+    //Socket.io
+    implementation("io.socket:socket.io-client:2.0.0") {
+        exclude(group = "org.json", module = "json")
+    }
+    //Location
+    implementation("com.google.android.gms:play-services-location:21.0.1")
 
 
 

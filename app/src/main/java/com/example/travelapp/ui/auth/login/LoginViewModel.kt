@@ -62,6 +62,7 @@ class LoginViewModel @Inject constructor(val travelApiService: TravelApiService,
                 is ApiResult.Success -> {
                     _uiState.value = LoginEvent.Success
                     session.storeToken(response.data.data.token)
+                    session.storeUserId(response.data.data.user.id)
                     _navigationEvent.emit(LoginNavigation.NavigationToHome)
                 }
 

@@ -7,14 +7,32 @@ import kotlinx.serialization.Serializable
 object HomeTab
 
 @Serializable
-object ExpenseTab
+object TravelAITab
 
 @Serializable
 object SearchTab
 
 @Serializable
-object MessageTab
+data class MessageTab(
+    val receiverId: String
+)
 
 @Serializable
-object ProfileTab
+object MyTripsTab
+
+
+@Serializable
+object MyProfileTab
+
+
+@Serializable
+object MyAccount
+
+@Serializable
+object ChatListTab
+
+
+@Serializable
+object CreateTripTab
+
 
