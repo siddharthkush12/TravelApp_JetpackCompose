@@ -12,10 +12,6 @@ object TravelAITab
 @Serializable
 object SearchTab
 
-@Serializable
-data class MessageTab(
-    val receiverId: String
-)
 
 @Serializable
 object MyTripsTab
@@ -25,14 +21,41 @@ object MyTripsTab
 object MyProfileTab
 
 
-@Serializable
-object MyAccount
+
 
 @Serializable
-object ChatListTab
+object ChatGroupTab
 
 
 @Serializable
 object CreateTripTab
 
 
+@Serializable
+data class AddMembersTab(
+    val tripId: String
+)
+
+
+
+@Serializable
+data class MessageScreenTab(
+    val groupId: String
+)
+
+
+
+@Serializable
+object MyAccount
+
+
+@Serializable
+object Support
+
+
+@Serializable
+object Notification
+
+
+@Serializable
+object DeveloperTab

@@ -39,4 +39,17 @@ class Session @Inject constructor(@ApplicationContext context: Context){
         sharedPref.edit().remove("userId").apply()
     }
 
+    fun storeProfileImage(url: String) {
+        sharedPref.edit().putString("profilePic", url).apply()
+    }
+
+    fun getProfileImage(): String? {
+        return sharedPref.getString("profilePic", null)
+    }
+
+    fun removeProfileImage() {
+        sharedPref.edit().remove("profilePic").apply()
+    }
+
 }
+

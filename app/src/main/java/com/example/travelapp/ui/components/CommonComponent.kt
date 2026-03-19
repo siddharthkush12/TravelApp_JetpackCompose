@@ -9,6 +9,7 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -20,6 +21,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
@@ -48,8 +50,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -116,16 +122,6 @@ fun ErrorAlertDialog(
     )
 }
 
-
-@Composable
-fun CenterLoading(){
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ){
-        CircularProgressIndicator()
-    }
-}
 
 
 
@@ -338,3 +334,54 @@ fun CustomDatePickerField(
 }
 
 
+
+@Composable
+fun CustomTopBar(
+    modifier: Modifier = Modifier,
+    title: String,
+    onBackClick: () -> Unit
+) {
+
+    Box(
+        modifier = modifier
+            .fillMaxWidth()
+            .background(
+                brush = Brush.verticalGradient(
+                    colors = listOf(
+                        TealCyan,
+                        TealCyan.copy(alpha = 0.5f)
+                    )
+                )
+            )
+            .padding(horizontal = 16.dp, vertical = 12.dp)
+            .padding(top = 30.dp)
+    ) {
+
+
+        Box(
+            modifier = Modifier
+                .size(40.dp)
+                .align(Alignment.CenterStart)
+                .clip(CircleShape)
+                .background(Color.White.copy(alpha = 0.2f))
+                .clickable { onBackClick() },
+            contentAlignment = Alignment.Center
+        ) {
+            Icon(
+                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                contentDescription = null,
+                tint = Color.White
+            )
+        }
+
+        Text(
+            text = title,
+            fontSize = 25.sp,
+            letterSpacing = 1.sp,
+            fontFamily = FontFamily(Font(R.font.inter)),
+            fontWeight = FontWeight.SemiBold,
+            color = Color.White,
+            modifier = Modifier.align(Alignment.Center)
+        )
+    }
+}

@@ -20,7 +20,7 @@ sealed class HomeBottomNavigation(
     )
 
     object Messages: HomeBottomNavigation(
-        destination= ChatListTab,
+        destination= ChatGroupTab,
         title="Message",
         icon= R.drawable.chat
     )

@@ -2,6 +2,7 @@ package com.example.travelapp.ui.home.dashboard
 
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -41,6 +42,7 @@ fun HomeTabScreen(
         modifier = Modifier
             .fillMaxSize()
             .padding(top = 90.dp)
+            .background(Color.Transparent)
     ) {
         item {
 
@@ -69,6 +71,13 @@ fun HomeTabScreen(
             }
 
             HomeOptionCards(homeNavController)
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(top = 100.dp)
+            ){
+                //End Padding or bottom padding
+            }
         }
 
     }

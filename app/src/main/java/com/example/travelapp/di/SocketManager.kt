@@ -1,0 +1,99 @@
+package com.example.travelapp.di
+
+import android.util.Log
+import io.socket.client.IO
+import io.socket.client.Socket
+import org.json.JSONObject
+
+object SocketManager {
+
+    private var socket: Socket? = null
+
+    /* ---------------- CONNECT ---------------- */
+
+    fun connect(token: String) {
+
+        if (socket?.connected() == true) return
+
+        val options = IO.Options().apply {
+            auth = mapOf("token" to token)
+            transports = arrayOf("websocket")
+        }
+
+        socket = IO.socket("http://10.0.2.2:2000", options)
+
+        socket?.on(Socket.EVENT_CONNECT) {
+            Log.d("Socket", "🔥 SOCKET CONNECTED")
+        }
+
+        socket?.on(Socket.EVENT_CONNECT_ERROR) { args ->
+            Log.e("Socket", "❌ SOCKET ERROR: ${args.joinToString()}")
+        }
+
+        socket?.connect()
+    }
+
+    /* ---------------- DISCONNECT ---------------- */
+
+    fun disconnect() {
+        socket?.disconnect()
+        socket = null
+    }
+
+    /* ---------------- JOIN GROUP ---------------- */
+
+    fun joinGroup(groupId: String) {
+
+        socket?.emit("join-group", groupId)
+
+        Log.d("Socket", "Joined group: $groupId")
+    }
+
+    /* ---------------- SEND MESSAGE ---------------- */
+
+    fun sendMessage(
+        groupId: String,
+        senderId: String,
+        text: String?,
+        type: String = "text",
+        mediaUrl: String? = null
+    ) {
+
+        val json = JSONObject().apply {
+
+            put("groupId", groupId)
+            put("senderId", senderId)
+            put("text", text)
+            put("type", type)
+            put("mediaUrl", mediaUrl)
+
+        }
+
+        socket?.emit("send-message", json)
+
+        Log.d("Socket", "Message sent: $json")
+    }
+
+    /* ---------------- RECEIVE MESSAGE ---------------- */
+
+    fun listenMessages(onMessageReceived: (JSONObject) -> Unit) {
+
+        socket?.off("receive-message")
+
+        socket?.on("receive-message") { args ->
+
+            if (args.isNotEmpty()) {
+
+                val data = args[0] as? JSONObject ?: return@on
+
+                Log.d("Socket", "Message received: $data")
+
+                onMessageReceived(data)
+
+            }
+
+        }
+
+    }
+
+}

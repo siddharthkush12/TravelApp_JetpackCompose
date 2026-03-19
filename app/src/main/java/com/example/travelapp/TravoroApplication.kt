@@ -4,7 +4,8 @@ import android.app.Application
 import dagger.hilt.android.HiltAndroidApp
 
 
+
 @HiltAndroidApp
-class TravoroApplication: Application(){
+class TravoroApplication : Application(){
 
 }
