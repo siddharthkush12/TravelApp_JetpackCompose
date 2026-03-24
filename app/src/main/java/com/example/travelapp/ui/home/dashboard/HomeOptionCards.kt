@@ -28,6 +28,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.travelapp.ui.home.homeNavigation.AddMembersTab
 import com.example.travelapp.ui.home.homeNavigation.CreateTripTab
 import com.example.travelapp.ui.theme.TealCyan
 
@@ -44,7 +45,7 @@ fun HomeOptionCards(homeNavController: NavController) {
         TravelOption("Create Trip", Icons.Default.Add, CreateTripTab),
         TravelOption("Bill Split", Icons.Default.AccountBalanceWallet, CreateTripTab),
         TravelOption("Translate", Icons.Default.Translate, CreateTripTab),
-        TravelOption("Nearby", Icons.Default.LocationOn, CreateTripTab),
+        TravelOption("Nearby", Icons.Default.LocationOn, AddMembersTab("Nearby")),
         TravelOption("Map", Icons.Default.Map, CreateTripTab),
         TravelOption("SOS Alert", Icons.Default.Warning, CreateTripTab, isAlert = true)
     )

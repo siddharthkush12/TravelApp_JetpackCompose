@@ -1,7 +1,9 @@
 package com.example.travelapp.data.remote.dto.home.profile
 
+import kotlinx.serialization.Serializable
 
 
+@Serializable
 data class EditProfileRequest(
     val fullname:String,
     val profilePic:String,

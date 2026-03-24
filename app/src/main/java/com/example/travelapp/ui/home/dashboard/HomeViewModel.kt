@@ -10,7 +10,9 @@ import com.example.travelapp.ui.utils.LocationHelper
 import com.google.android.gms.location.Priority
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -24,7 +26,12 @@ class HomeViewModel @Inject constructor(
 
     private val _uiState = MutableStateFlow<HomeEvent>(HomeEvent.Idle)
     val uiState = _uiState.asStateFlow()
+
+    private val _homeNavigation= MutableSharedFlow<HomeNavigation>()
+    val navigation=_homeNavigation.asSharedFlow()
+
     private val locationHelper = LocationHelper(context)
+
     private val _location = MutableStateFlow<Pair<Double, Double>?>(null)
     val location = _location.asStateFlow()
     private val _city = MutableStateFlow<String?>(null)
@@ -32,6 +39,12 @@ class HomeViewModel @Inject constructor(
 
     private val _weather=MutableStateFlow<WeatherUiModel?>(null)
     val weather=_weather.asStateFlow()
+
+
+
+    init {
+        fetchLocationAndCity()
+    }
 
 
     fun fetchLocationAndCity() {
@@ -100,6 +113,13 @@ class HomeViewModel @Inject constructor(
 
     fun clearError() {
         _uiState.value = HomeEvent.Idle
+    }
+
+
+    sealed class HomeNavigation(){
+        object NavigationTTravelAi:HomeNavigation()
+        object NavigationToChatGroup:HomeNavigation()
+        object NavigationToMyTrips:HomeNavigation()
     }
 
 

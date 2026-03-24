@@ -1,5 +1,9 @@
 package com.example.travelapp.data.remote.dto.home.profile
 
+import kotlinx.serialization.Serializable
+
+
+@Serializable
 data class EditProfileResponse(
     val code: Int,
     val `data`: Data,
@@ -8,6 +12,8 @@ data class EditProfileResponse(
 )
 
 
+
+@Serializable
 data class Data(
     val _id: String,
     val fullname: String,

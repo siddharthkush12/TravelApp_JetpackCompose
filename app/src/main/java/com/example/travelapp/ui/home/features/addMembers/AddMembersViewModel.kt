@@ -1,4 +1,4 @@
-package com.example.travelapp.ui.home.Features.AddMembers
+package com.example.travelapp.ui.home.features.addMembers
 
 import android.util.Log
 import androidx.lifecycle.ViewModel

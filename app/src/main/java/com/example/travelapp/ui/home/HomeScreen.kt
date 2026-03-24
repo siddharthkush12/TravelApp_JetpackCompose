@@ -13,6 +13,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.LocationOn
+import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.getValue
@@ -63,9 +64,9 @@ fun HomeScreen(
     val city by homeViewModel.city.collectAsStateWithLifecycle()
     val profile by profileViewModel.profile.collectAsStateWithLifecycle()
 
-    LaunchedEffect(Unit) {
-        homeViewModel.fetchLocationAndCity()
-    }
+//    LaunchedEffect(Unit) {
+//        homeViewModel.fetchLocationAndCity()
+//    }
 
     LaunchedEffect(profile) {
         profile?.let {
@@ -73,17 +74,18 @@ fun HomeScreen(
         }
     }
 
-    val showTopBar = currentRoute?.contains("HomeTab") == true ||
-            currentRoute?.contains("SearchTab") == true
+    val showTopBar =
+        currentRoute?.contains("HomeTab") == true ||
+                currentRoute?.contains("SearchTab") == true
 
-    val showBottomBar = currentRoute?.contains("HomeTab") == true ||
-            currentRoute?.contains("TravelAITab") == true ||
-            currentRoute?.contains("MyTripsTab") == true ||
-            currentRoute?.contains("ChatGroupTab") == true
+    val showBottomBar =
+        currentRoute?.contains("HomeTab") == true ||
+                currentRoute?.contains("TravelAITab") == true ||
+                currentRoute?.contains("MyTripsTab") == true ||
+                currentRoute?.contains("ChatGroupTab") == true
 
     ModalNavigationDrawer(
-        drawerState = drawerState,
-        drawerContent = {
+        drawerState = drawerState, drawerContent = {
             NavigationDrawer(
                 homeNavController,
                 rootNavController,
@@ -94,39 +96,34 @@ fun HomeScreen(
             )
         }
     ) {
-        Scaffold(
-            containerColor = MaterialTheme.colorScheme.background,
-            topBar = {
-                if (showTopBar) {
-                    val gradientFade = Brush.verticalGradient(
-                        colors = listOf(
-                            MaterialTheme.colorScheme.background,
-                            MaterialTheme.colorScheme.background.copy(alpha = 0.9f),
-                            MaterialTheme.colorScheme.background.copy(alpha = 0.5f),
-                            Color.Transparent
-                        )
+        Scaffold(containerColor = MaterialTheme.colorScheme.background, topBar = {
+            if (showTopBar) {
+                val gradientFade = Brush.verticalGradient(
+                    colors = listOf(
+                        MaterialTheme.colorScheme.background,
+                        MaterialTheme.colorScheme.background.copy(alpha = 0.9f),
+                        MaterialTheme.colorScheme.background.copy(alpha = 0.5f),
+                        Color.Transparent
                     )
+                )
 
-                    Column(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .background(gradientFade)
-                    ) {
-                        TravoroTopBar(
-                            city = city,
-                            session,
-                            onOpenDrawer = { scope.launch { drawerState.open() } }
-                        )
-                        Spacer(modifier = Modifier.height(16.dp))
-                    }
-                }
-            },
-            bottomBar = {
-                if (showBottomBar) {
-                    HomeBottomBar(navController = homeNavController)
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(gradientFade)
+                ) {
+                    TravoroTopBar(
+                        city = city,
+                        session,
+                        onOpenDrawer = { scope.launch { drawerState.open() } })
+                    Spacer(modifier = Modifier.height(16.dp))
                 }
             }
-        ) { paddingValues ->
+        }, bottomBar = {
+            if (showBottomBar) {
+                HomeBottomBar(navController = homeNavController)
+            }
+        }) { paddingValues ->
             HomeNavGraph(
                 homeNavController = homeNavController,
                 profileViewModel = profileViewModel,
@@ -142,19 +139,18 @@ fun HomeScreen(
 
 @Composable
 fun TravoroTopBar(
-    city: String?,
-    session: Session, // Replace with your actual Profile data class type
+    city: String?, session: Session,
     onOpenDrawer: () -> Unit
 ) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 24.dp, vertical = 16.dp)
-            .statusBarsPadding(), // Ensures it sits perfectly below the phone's notch/battery
+            .statusBarsPadding(),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        // 1. Elevated Menu Button
+
         IconButton(
             onClick = onOpenDrawer,
             modifier = Modifier
@@ -164,14 +160,14 @@ fun TravoroTopBar(
                 .border(1.dp, MaterialTheme.colorScheme.onSurface.copy(alpha = 0.05f), CircleShape)
         ) {
             Icon(
-                painter = painterResource(R.drawable.hamburger_menu_more_2_svgrepo_com),
+                imageVector = Icons.Filled.Menu,
                 contentDescription = "Menu",
                 tint = MaterialTheme.colorScheme.onBackground,
                 modifier = Modifier.size(24.dp)
             )
         }
 
-        // 2. Stacked Location Indicator
+
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
@@ -204,13 +200,12 @@ fun TravoroTopBar(
             }
         }
 
-        // 3. User Profile Picture
         Box(
             modifier = Modifier
                 .size(48.dp)
                 .clip(CircleShape)
                 .background(MaterialTheme.colorScheme.surfaceVariant)
-                .border(2.dp, TealCyan, CircleShape), // Branded border
+                .border(2.dp, TealCyan, CircleShape),
             contentAlignment = Alignment.Center
         ) {
 
@@ -240,18 +235,16 @@ fun HomeBottomBar(
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
 
-    // The Floating Pill Container
+
     Box(
         modifier = Modifier
             .fillMaxWidth()
             .padding(
-                horizontal = 24.dp,
-                vertical = 24.dp
-            ) // Lifted slightly higher for the floating effect
+                horizontal = 24.dp, vertical = 24.dp
+            )
             .height(72.dp)
     ) {
 
-        // The Glass Background
         GlassBackground(modifier = Modifier.matchParentSize())
 
         Row(
@@ -260,28 +253,21 @@ fun HomeBottomBar(
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
             items.forEach { item ->
-                // Safe check: Use simpleName to ensure the route matches correctly
                 val selected = currentDestination?.route?.contains(
                     item.destination::class.simpleName ?: ""
                 ) == true
 
-                // --- PREMIUM ANIMATIONS ---
-                // 1. A subtle, bouncy pop when the icon is selected
                 val iconScale by animateFloatAsState(
-                    targetValue = if (selected) 1.15f else 1.0f,
-                    animationSpec = spring(
+                    targetValue = if (selected) 1.15f else 1.0f, animationSpec = spring(
                         dampingRatio = Spring.DampingRatioMediumBouncy,
                         stiffness = Spring.StiffnessLow
-                    ),
-                    label = "scale_anim"
+                    ), label = "scale_anim"
                 )
 
-                // 2. Smooth color crossfade
                 val contentColor by animateColorAsState(
                     targetValue = if (selected) TealCyan else MaterialTheme.colorScheme.onSurfaceVariant.copy(
                         alpha = 0.6f
-                    ),
-                    label = "color_anim"
+                    ), label = "color_anim"
                 )
 
                 Column(
@@ -291,7 +277,7 @@ fun HomeBottomBar(
                         .clip(RoundedCornerShape(20.dp))
                         .clickable(
                             interactionSource = remember { MutableInteractionSource() },
-                            indication = null, // Removes the harsh Android ripple for a cleaner iOS-style tap
+                            indication = null,
                             onClick = {
                                 if (!selected) {
                                     navController.navigate(item.destination) {
@@ -300,8 +286,7 @@ fun HomeBottomBar(
                                         restoreState = true
                                     }
                                 }
-                            }
-                        ),
+                            }),
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Center
                 ) {
@@ -310,7 +295,7 @@ fun HomeBottomBar(
                         contentDescription = item.title,
                         modifier = Modifier
                             .size(24.dp)
-                            .scale(iconScale), // Applies the bouncy scale
+                            .scale(iconScale),
                         tint = contentColor
                     )
 
@@ -332,7 +317,7 @@ fun HomeBottomBar(
 fun GlassBackground(
     modifier: Modifier = Modifier
 ) {
-    // Dynamically grabs the surface color so it switches instantly between Light/Dark mode
+
     val surfaceColor = MaterialTheme.colorScheme.surface
     val glassColor = surfaceColor.copy(alpha = 0.85f)
     val borderColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.15f)
@@ -342,9 +327,7 @@ fun GlassBackground(
             .clip(RoundedCornerShape(28.dp))
             .background(glassColor)
             .border(
-                width = 1.dp,
-                color = borderColor,
-                shape = RoundedCornerShape(28.dp)
+                width = 1.dp, color = borderColor, shape = RoundedCornerShape(28.dp)
             )
     )
 }

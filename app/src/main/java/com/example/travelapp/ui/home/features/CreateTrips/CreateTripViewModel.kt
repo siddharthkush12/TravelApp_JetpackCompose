@@ -1,4 +1,4 @@
-package com.example.travelapp.ui.home.Features.CreateTrips
+package com.example.travelapp.ui.home.features.CreateTrips
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

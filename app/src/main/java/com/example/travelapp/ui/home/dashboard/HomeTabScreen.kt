@@ -30,10 +30,13 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.travelapp.ui.home.profile.ProfileViewModel
+import com.example.travelapp.ui.theme.GradientSunsetEnd
+import com.example.travelapp.ui.theme.TealCyan
+import com.example.travelapp.ui.theme.TealCyanDark
 
 @Composable
 fun HomeTabScreen(
-    paddingValues: PaddingValues, // Pass this down from the Scaffold in HomeScreen!
+    paddingValues: PaddingValues,
     homeViewModel: HomeViewModel,
     profileViewModel: ProfileViewModel,
     homeNavController: NavController
@@ -46,41 +49,38 @@ fun HomeTabScreen(
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
-            // Replaced hardcoded 90.dp with dynamic scaffold padding so it sits perfectly under your glassy TopBar
             .padding(top = paddingValues.calculateTopPadding())
             .background(MaterialTheme.colorScheme.background),
-        contentPadding = PaddingValues(bottom = 120.dp) // Gives breathing room above the bottom nav bar
+        contentPadding = PaddingValues(bottom = 120.dp)
     ) {
 
-        // 1. Personalized Greeting
         item {
             HomeHeader(
-                userName = profile?.fullname ?: "Traveler",
-                upcomingTripDate = "2026-12-01" // We can make this dynamic later!
+                userName = profile?.fullname ?: "Traveler", upcomingTripDate = "2026-12-01"
             )
             Spacer(modifier = Modifier.height(5.dp))
         }
 
-        // 2. Quick Actions (Flights, Hotels, Maps, etc.)
+
         item {
             HomeOptionCards(homeNavController)
             Spacer(modifier = Modifier.height(24.dp))
         }
 
-        // 3. The "Hook" - Inspiration Carousel
+
         item {
             SectionTitle(title = "Trending Destinations", subtitle = "Unfold hidden gems")
             TrendingDestinationsCarousel()
             Spacer(modifier = Modifier.height(32.dp))
         }
 
-        // 4. The AI Planner Promotion
+
         item {
-            AIBannerCard(onClick = { /* Navigate to AI Planner */ })
+            AIBannerCard(onClick = { })
             Spacer(modifier = Modifier.height(32.dp))
         }
 
-        // 5. Local Context
+
         item {
             SectionTitle(title = "Local Conditions", subtitle = city ?: "Fetching location...")
 
@@ -88,6 +88,7 @@ fun HomeTabScreen(
                 is HomeViewModel.HomeEvent.Loading -> {
                     WeatherCardPlaceholder()
                 }
+
                 is HomeViewModel.HomeEvent.Error -> {
                     Text(
                         text = (uiState as HomeViewModel.HomeEvent.Error).message,
@@ -95,10 +96,10 @@ fun HomeTabScreen(
                         modifier = Modifier.padding(horizontal = 24.dp)
                     )
                 }
+
                 else -> {
                     HomeWeather(
-                        city = city,
-                        weather = weather
+                        city = city, weather = weather
                     )
                 }
             }
@@ -106,7 +107,6 @@ fun HomeTabScreen(
     }
 }
 
-// --- Helper UI Components ---
 
 @Composable
 fun SectionTitle(title: String, subtitle: String) {
@@ -124,20 +124,34 @@ fun SectionTitle(title: String, subtitle: String) {
     }
 }
 
-// Mock composables so your code compiles (We will build these out next!)
-data class Destination(val name: String, val country: String, val imageUrl: String, val rating: String)
+
+data class Destination(
+    val name: String, val country: String, val imageUrl: String, val rating: String
+)
 
 @Composable
 fun TrendingDestinationsCarousel() {
     val destinations = listOf(
-        Destination("Kyoto", "Japan", "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?q=80&w=800", "4.9"),
-        Destination("Amalfi Coast", "Italy", "https://images.unsplash.com/photo-1633511090163-b43061fb0526?q=80&w=800", "4.8"),
-        Destination("Banff", "Canada", "https://images.unsplash.com/photo-1603998145719-21664e1c1db0?q=80&w=800", "4.9")
+        Destination(
+            "Kyoto",
+            "Japan",
+            "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?q=80&w=800",
+            "4.9"
+        ), Destination(
+            "Amalfi Coast",
+            "Italy",
+            "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?q=80&w=800",
+            "4.8"
+        ), Destination(
+            "Banff",
+            "Canada",
+            "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?q=80&w=800",
+            "4.9"
+        )
     )
 
     LazyRow(
-        // This ensures the first item aligns with your 24.dp screen margin,
-        // but still allows items to scroll seamlessly off the edge of the screen
+
         contentPadding = PaddingValues(horizontal = 24.dp),
         horizontalArrangement = Arrangement.spacedBy(16.dp)
     ) {
@@ -147,9 +161,8 @@ fun TrendingDestinationsCarousel() {
                     .width(220.dp)
                     .height(280.dp)
                     .clip(RoundedCornerShape(24.dp))
-                    .clickable { /* TODO: Navigate to Details */ }
-            ) {
-                // 1. The Background Image
+                    .clickable { /* TODO: Navigate to Details */ }) {
+
                 AsyncImage(
                     model = dest.imageUrl,
                     contentDescription = dest.name,
@@ -157,26 +170,26 @@ fun TrendingDestinationsCarousel() {
                     modifier = Modifier.fillMaxSize()
                 )
 
-                // 2. The Gradient Scrim (Protects the text so it's always readable)
+
                 Box(
                     modifier = Modifier
                         .fillMaxSize()
                         .background(
                             Brush.verticalGradient(
                                 colors = listOf(Color.Transparent, Color.Black.copy(alpha = 0.8f)),
-                                startY = 300f // Starts the fade lower down the image
+                                startY = 300f
                             )
                         )
                 )
 
-                // 3. The Content (Rating Pill at top, Text at bottom)
+
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(16.dp),
                     verticalArrangement = Arrangement.SpaceBetween
                 ) {
-                    // Rating Pill (Glassmorphism)
+
                     Row(
                         modifier = Modifier
                             .align(Alignment.End)
@@ -188,7 +201,7 @@ fun TrendingDestinationsCarousel() {
                         Icon(
                             imageVector = Icons.Default.Star,
                             contentDescription = "Rating",
-                            tint = Color(0xFFFFD700), // Gold
+                            tint = GradientSunsetEnd,
                             modifier = Modifier.size(14.dp)
                         )
                         Spacer(modifier = Modifier.width(4.dp))
@@ -200,7 +213,7 @@ fun TrendingDestinationsCarousel() {
                         )
                     }
 
-                    // Location Text
+
                     Column {
                         Text(
                             text = dest.name,
@@ -221,7 +234,9 @@ fun TrendingDestinationsCarousel() {
 }
 
 @Composable
-fun AIBannerCard(onClick: () -> Unit) {
+fun AIBannerCard(
+    onClick: () -> Unit
+) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -229,16 +244,14 @@ fun AIBannerCard(onClick: () -> Unit) {
             .clip(RoundedCornerShape(24.dp))
             .clickable { onClick() }
             .background(
-                // A beautiful sweeping gradient using your brand colors
+
                 Brush.linearGradient(
                     colors = listOf(
-                        Color(0xFF0E8A8B), // TealCyanDark
-                        Color(0xFF18C0C1)  // TealCyan
+                        TealCyanDark, TealCyan
                     )
                 )
-            )
-    ) {
-        // Decorative background shape (Optional, adds premium texture)
+            )) {
+
         Box(
             modifier = Modifier
                 .align(Alignment.TopEnd)
@@ -283,7 +296,7 @@ fun AIBannerCard(onClick: () -> Unit) {
                 )
             }
 
-            // The Action Arrow (Glassmorphism circle)
+
             Box(
                 modifier = Modifier
                     .size(48.dp)

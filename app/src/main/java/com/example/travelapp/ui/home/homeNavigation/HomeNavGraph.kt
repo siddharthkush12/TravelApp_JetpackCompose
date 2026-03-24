@@ -11,8 +11,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import com.example.travelapp.di.Session
-import com.example.travelapp.ui.home.Features.AddMembers.AddMembersScreen
-import com.example.travelapp.ui.home.Features.CreateTrips.CreateTripScreen
+import com.example.travelapp.ui.home.features.addMembers.AddMembersScreen
+import com.example.travelapp.ui.home.features.CreateTrips.CreateTripScreen
 import com.example.travelapp.ui.home.Search.SearchTabScreen
 import com.example.travelapp.ui.home.travelAI.TravelAITabScreen
 import com.example.travelapp.ui.home.dashboard.HomeTabScreen

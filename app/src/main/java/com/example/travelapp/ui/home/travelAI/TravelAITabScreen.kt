@@ -395,6 +395,9 @@ fun ChatMessageItem(
     }
 }
 
+
+
+
 @Composable
 fun SelectionButton(
     text: String, enabled: Boolean, onClick: () -> Unit
@@ -809,7 +812,7 @@ fun TripResultCard(trip: AiTripData, onAccept: (AiTripData) -> Unit, isLoading: 
                     ) {
                         trip.travelTips.forEach { tip ->
                             Row(
-                                verticalAlignment = Alignment.Top, // Fixed alignment
+                                verticalAlignment = Alignment.Top,
                                 modifier = Modifier.fillMaxWidth()
                             ) {
                                 Icon(
@@ -824,7 +827,7 @@ fun TripResultCard(trip: AiTripData, onAccept: (AiTripData) -> Unit, isLoading: 
                                     style = MaterialTheme.typography.bodyMedium,
                                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                                     lineHeight = 20.sp,
-                                    modifier = Modifier.weight(1f) // Ensures long tips wrap properly
+                                    modifier = Modifier.weight(1f)
                                 )
                             }
                         }
@@ -834,7 +837,7 @@ fun TripResultCard(trip: AiTripData, onAccept: (AiTripData) -> Unit, isLoading: 
                 Spacer(Modifier.height(32.dp))
             }
 
-            // --- 9. SUBMIT BUTTON ---
+
             PaddingWrapper {
                 Box(
                     modifier = Modifier
