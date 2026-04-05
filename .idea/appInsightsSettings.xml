@@ -8,8 +8,8 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="com.example.travelapp" />
-                  <option name="mobileSdkAppId" value="1:455541910910:android:ef9b3a2a1a62910904972f" />
+                  <option name="appId" value="com.travoro.app" />
+                  <option name="mobileSdkAppId" value="1:455541910910:android:c2556ec50842469b04972f" />
                   <option name="projectId" value="travelapp-62221" />
                   <option name="projectNumber" value="455541910910" />
                 </ConnectionSetting>

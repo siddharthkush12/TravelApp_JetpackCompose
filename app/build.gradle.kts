@@ -11,17 +11,17 @@ plugins {
 }
 
 android {
-    namespace = "com.example.travelapp"
+    namespace = "com.travoro.app"
     compileSdk =36
 
 
 
     defaultConfig {
-        applicationId = "com.example.travelapp"
+        applicationId = "com.travoro.app"
         minSdk = 24
         targetSdk = 36
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = 6
+        versionName = "1.0.5"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -103,6 +103,12 @@ dependencies {
     }
     //Location
     implementation("com.google.android.gms:play-services-location:21.0.1")
+    // Map
+    implementation("org.osmdroid:osmdroid-android:6.1.16")
+    //glide
+    implementation("com.github.bumptech.glide:glide:4.16.0")
+    ksp("com.github.bumptech.glide:compiler:4.16.0")
+
 
 
 
